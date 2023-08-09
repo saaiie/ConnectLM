@@ -4,9 +4,9 @@ from . import common
 class QueryChat:
     def __init__(
         self,
-        service,
-        prompt,
-        messages,
+        service="openai",
+        prompt="You are a helpful AI assistant. The following is a conversation with a student.",
+        messages=None,
         model="gpt-3.5-turbo",
         temperature=0.3,
         max_tokens=400,
@@ -30,12 +30,15 @@ class QueryChat:
     def clear(self):
         self.messages = []
 
-    def send(self):
-        _messages = self.messages
+    def send(self, message=None):
+        _messages = self.messages or []
+
         if self.prompt:
             _messages = [{"role": "system", "content": self.prompt}] + _messages
 
-        print(_messages)
+        if message:
+            _messages.append({"role": "user", "content": message})
+
         response = self.service_adaptor.send(
             model=self.model,
             messages=_messages,

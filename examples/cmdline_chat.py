@@ -1,14 +1,12 @@
 # Very simple command line chat client
-import os
-import openai
 import connectlm as cm
 
 
-openai.api_key = os.environ["OPENAI_API_KEY"]
+cm.init(["openai"])
 
 print("To exit the chat, type 'exit'\n")
 
-query = cm.ChatQuery()
+query = cm.QueryChat()
 while (prompt := input("you : ")) != "exit":
-    message = query.send(prompt)
-    print(f"\n{message['role']} : {message['content']}\n")
+    response = query.send(prompt)
+    print(response["content"])
